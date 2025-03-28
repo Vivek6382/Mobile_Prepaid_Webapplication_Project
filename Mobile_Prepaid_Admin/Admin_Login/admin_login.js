@@ -1,22 +1,109 @@
 
   // Profile-DropDown-JS
 
+  // Profile-DropDown-JS
+
   document.addEventListener("DOMContentLoaded", function () {
     const userDropdown = document.querySelector(".user-dropdown");
+    const userIcon = document.querySelector(".user-dropdown i");
     const dropdownContent = document.querySelector(".dropdown-content");
-  
-    userDropdown.addEventListener("click", function (event) {
-      event.stopPropagation();
-      userDropdown.classList.toggle("active");
-    });
-  
+    const signOutBtn = document.getElementById("signOutBtn");
+    const myAccountBtn = document.getElementById("myAccountBtn");
+
+    // Logout function
+    async function handleLogout(event) {
+        event.preventDefault();
+        
+        const accessToken = sessionStorage.getItem("accessToken");
+        const currentCustomer = sessionStorage.getItem("currentCustomer");
+
+        try {
+            // Parse customer data safely
+            const storedCustomer = currentCustomer ? JSON.parse(currentCustomer) : null;
+            
+            // Logout API Request
+            const logoutResponse = await fetch("http://localhost:8083/auth/logout", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`
+                },
+                body: JSON.stringify({ 
+                    refreshToken: storedCustomer?.refreshToken || null 
+                })
+            });
+
+            // Clear session storage
+            sessionStorage.removeItem("currentCustomer");
+            sessionStorage.removeItem("accessToken");
+            localStorage.removeItem("accessToken");
+            
+            // Redirect to login page
+            window.location.href = "/Mobile_Prepaid_Customer/Recharge_Page/recharge.html";
+        } catch (error) {
+            console.error("Logout error:", error);
+            // Fallback: Clear session storage
+            sessionStorage.removeItem("currentCustomer");
+            sessionStorage.removeItem("accessToken");
+            localStorage.removeItem("accessToken");
+            window.location.href = "/Mobile_Prepaid_Customer/Recharge_Page/recharge.html";
+        }
+    }
+
+    // Function to check authentication and set up dropdown
+    function setupDropdown() {
+        const currentCustomer = sessionStorage.getItem("currentCustomer");
+        const accessToken = sessionStorage.getItem("accessToken");
+
+        if (currentCustomer && accessToken) {
+            // User is authenticated
+            userIcon.onclick = function(event) {
+                event.stopPropagation();
+                userDropdown.classList.toggle("active");
+            };
+
+            // Set up sign out button
+            if (signOutBtn) {
+                signOutBtn.onclick = handleLogout;
+            }
+
+            // Set up my account button
+            if (myAccountBtn) {
+                myAccountBtn.onclick = function() {
+                    window.location.href = "/Mobile_Prepaid_Customer/My_Account/My_Account.html";
+                };
+            }
+        } else {
+            // User is not authenticated
+            userIcon.onclick = function() {
+                window.location.href = "/Mobile_Prepaid_Customer/Recharge_Page/recharge.html";
+            };
+        }
+    }
+
+    // Initialize dropdown
+    setupDropdown();
+
     // Close dropdown when clicking outside
-    document.addEventListener("click", function (event) {
-      if (!userDropdown.contains(event.target)) {
-        userDropdown.classList.remove("active");
-      }
+    document.addEventListener("click", function(event) {
+        if (userDropdown && !userDropdown.contains(event.target)) {
+            userDropdown.classList.remove("active");
+        }
     });
-  });
+
+    // Handle storage changes across tabs/windows
+    window.addEventListener("storage", function (event) {
+        if (event.key === "currentCustomer" || event.key === "accessToken") {
+            if (!sessionStorage.getItem("currentCustomer") || !sessionStorage.getItem("accessToken")) {
+                window.location.href = "/Mobile_Prepaid_Customer/Recharge_Page/recharge.html";
+            }
+            
+            // Reinitialize dropdown on storage change
+            setupDropdown();
+        }
+    });
+});
+
 
 
 

@@ -31,19 +31,79 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Handle admin logout
-  function handleAdminLogout(event) {
-    event.preventDefault();
+  // Modify the existing admin logout function
+function handleAdminLogout(event) {
+  event.preventDefault();
 
-    // Clear session storage
-    sessionStorage.removeItem("currentCustomer");
-    sessionStorage.removeItem("adminAccessToken");
+  const adminAccessToken = sessionStorage.getItem("adminAccessToken");
+  const currentCustomer = sessionStorage.getItem("currentCustomer");
 
-    // Redirect to login page
-    setTimeout(() => {
-      window.location.href =
-        "/Mobile_Prepaid_Admin/Admin_Login/admin_login.html";
-    }, 100);
+  try {
+      // Parse customer data safely
+      const storedCustomer = currentCustomer ? JSON.parse(currentCustomer) : null;
+      
+      // Logout API Request
+      fetch("http://localhost:8083/auth/logout", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${adminAccessToken}`
+          },
+          body: JSON.stringify({ 
+              refreshToken: storedCustomer?.refreshToken || null 
+          })
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Logout failed');
+          }
+          return response.json();
+      })
+      .then(() => {
+          // Clear session storage
+          sessionStorage.removeItem("currentCustomer");
+          sessionStorage.removeItem("adminAccessToken");
+
+          // Redirect to admin login page
+          window.location.href = "/Mobile_Prepaid_Admin/Admin_Login/admin_login.html";
+      })
+      .catch(error => {
+          console.error("Logout error:", error);
+          
+          // Fallback: Clear session storage
+          sessionStorage.removeItem("currentCustomer");
+          sessionStorage.removeItem("adminAccessToken");
+          window.location.href = "/Mobile_Prepaid_Admin/Admin_Login/admin_login.html";
+      });
+  } catch (error) {
+      console.error("Logout error:", error);
+      // Fallback: Clear session storage
+      sessionStorage.removeItem("currentCustomer");
+      sessionStorage.removeItem("adminAccessToken");
+      window.location.href = "/Mobile_Prepaid_Admin/Admin_Login/admin_login.html";
   }
+}
+
+// Update the existing event listener setup
+function setupEventListeners() {
+  // User icon click event
+  if (adminUserIcon) {
+      adminUserIcon.addEventListener("click", toggleDropdown);
+  }
+
+  // Sign out button click event
+  if (adminSignOutBtn) {
+      adminSignOutBtn.addEventListener("click", handleAdminLogout);
+  }
+
+  // Close dropdown when clicking outside
+  document.addEventListener("click", function (event) {
+      if (adminUserDropdown && !adminUserDropdown.contains(event.target)) {
+          adminDropdownContent.style.display = "none";
+          adminUserDropdown.classList.remove("active");
+      }
+  });
+}
 
   // Set up event listeners
   function setupEventListeners() {
@@ -95,6 +155,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // Start the application
   init();
 });
+
+
+
 
 document.addEventListener("DOMContentLoaded", function () {
   // API endpoints

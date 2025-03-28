@@ -154,17 +154,17 @@
   .user-dropdown {
     position: relative;
     cursor: pointer;
-  }
-  
-  /* Changed user icon color to red-orange */
-  .user-dropdown i {
+}
+
+/* Changed user icon color to red-orange */
+.user-dropdown i {
     font-size: 1.5rem;
     color: var(--highlight-color);
     cursor: pointer;
-  }
-  
-  /* Dropdown Content */
-  .dropdown-content {
+}
+
+/* Dropdown Content */
+.dropdown-content {
     display: none;
     position: absolute;
     right: 0;
@@ -174,25 +174,25 @@
     border-radius: 5px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     overflow: hidden;
-  }
-  
-  .dropdown-content a {
+}
+
+.dropdown-content a {
     display: block;
     padding: 10px;
     text-decoration: none;
     color: var(--text-color);
     font-size: 1rem;
     transition: 0.3s;
-  }
-  
-  .dropdown-content a:hover {
+}
+
+.dropdown-content a:hover {
     background: var(--highlight-color);
-  }
-  
-  /* Show dropdown on click */
-  .user-dropdown.active .dropdown-content {
+}
+
+/* Show dropdown on click */
+.user-dropdown.active .dropdown-content {
     display: block;
-  }
+}
   
   /* Navigation Styling */
   .navigation_main {

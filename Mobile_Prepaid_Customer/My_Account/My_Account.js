@@ -5,24 +5,49 @@
 // The-Login-Logout-Handler
 
 // Profile-DropDown-JS
+// Login-Logout-Handler
+
 document.addEventListener("DOMContentLoaded", function () {
     const profileMenu = document.querySelector(".profile-menu");
-    const userIcon = document.querySelector(".profile-menu i"); // User icon inside the profile menu
+    const userIcon = document.querySelector(".profile-menu i");
     const dropdownOptions = document.querySelector(".dropdown-options");
-    const signOutBtn = document.getElementById("signOutBtn"); // Dropdown logout button
-    const logoutBtn = document.getElementById("logout-btn"); // Sidebar logout button
+    const signOutBtn = document.getElementById("signOutBtn");
+    const logoutBtn = document.getElementById("logout-btn");
 
-    function handleLogout(event) {
+    async function handleLogout(event) {
         event.preventDefault();
         
-        // Remove session storage items
-        sessionStorage.removeItem("currentCustomer"); // Remove customer session
-        sessionStorage.removeItem("accessToken"); // Remove access token
-        
-        // Ensure storage is cleared before redirecting
-        setTimeout(() => {
+        const accessToken = sessionStorage.getItem("accessToken");
+        const refreshToken = JSON.parse(sessionStorage.getItem("currentCustomer")).refreshToken;
+
+        try {
+            // Logout API Request
+            const logoutResponse = await fetch("http://localhost:8083/auth/logout", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`
+                },
+                body: JSON.stringify({ refreshToken: refreshToken })
+            });
+
+            if (!logoutResponse.ok) {
+                throw new Error("Logout failed");
+            }
+
+            // Clear session storage
+            sessionStorage.removeItem("currentCustomer");
+            sessionStorage.removeItem("accessToken");
+            
+            // Redirect to login page
             window.location.href = "/Mobile_Prepaid_Customer/Recharge_Page/recharge.html";
-        }, 100);
+        } catch (error) {
+            console.error("Logout error:", error);
+            // Fallback: Clear session storage even if logout request fails
+            sessionStorage.removeItem("currentCustomer");
+            sessionStorage.removeItem("accessToken");
+            window.location.href = "/Mobile_Prepaid_Customer/Recharge_Page/recharge.html";
+        }
     }
 
     function updateDropdown() {
@@ -33,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Show dropdown when user icon is clicked
             userIcon.onclick = function (event) {
                 event.stopPropagation();
-                profileMenu.classList.toggle("active"); // Toggle `active` on `.profile-menu`
+                profileMenu.classList.toggle("active");
             };
 
             // Ensure dropdown starts hidden
@@ -53,7 +78,6 @@ document.addEventListener("DOMContentLoaded", function () {
             profileMenu.classList.remove("active");
         }
     }
-
     // Initialize dropdown behavior
     updateDropdown();
 

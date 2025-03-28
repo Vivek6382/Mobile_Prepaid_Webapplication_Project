@@ -9,13 +9,54 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function handleAdminLogout(event) {
         event.preventDefault();
-        sessionStorage.removeItem("currentCustomer"); // Remove session storage
-        sessionStorage.removeItem("adminAccessToken"); // Remove admin token
 
-        // Redirect to Admin Login after logout
-        setTimeout(() => {
+        const adminAccessToken = sessionStorage.getItem("adminAccessToken");
+        const currentCustomer = sessionStorage.getItem("currentCustomer");
+
+        try {
+            // Parse customer data safely
+            const storedCustomer = currentCustomer ? JSON.parse(currentCustomer) : null;
+            
+            // Logout API Request
+            fetch("http://localhost:8083/auth/logout", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${adminAccessToken}`
+                },
+                body: JSON.stringify({ 
+                    refreshToken: storedCustomer?.refreshToken || null 
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Logout failed');
+                }
+                return response.json();
+            })
+            .then(() => {
+                // Clear session storage
+                sessionStorage.removeItem("currentCustomer");
+                sessionStorage.removeItem("adminAccessToken");
+
+                // Redirect to admin login page
+                window.location.href = "/Mobile_Prepaid_Admin/Admin_Login/admin_login.html";
+            })
+            .catch(error => {
+                console.error("Logout error:", error);
+                
+                // Fallback: Clear session storage
+                sessionStorage.removeItem("currentCustomer");
+                sessionStorage.removeItem("adminAccessToken");
+                window.location.href = "/Mobile_Prepaid_Admin/Admin_Login/admin_login.html";
+            });
+        } catch (error) {
+            console.error("Logout error:", error);
+            // Fallback: Clear session storage
+            sessionStorage.removeItem("currentCustomer");
+            sessionStorage.removeItem("adminAccessToken");
             window.location.href = "/Mobile_Prepaid_Admin/Admin_Login/admin_login.html";
-        }, 100);
+        }
     }
 
     function checkAdminAccess() {
@@ -82,8 +123,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-
-
 
 
 
