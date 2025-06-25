@@ -61,54 +61,47 @@ public class UserController {
     
     
  // Add this to your UserController
-    @PostMapping("/{id}/profile-picture-base64")
-    public ResponseEntity<String> uploadProfilePictureBase64(
-            @PathVariable Long id,
-            @RequestBody Map<String, String> request) {
-        
-        try {
-            String base64Image = request.get("image");
-            if (base64Image == null || base64Image.isEmpty()) {
-                return ResponseEntity.badRequest().body("No image data provided");
-            }
-            
-            // Decode base64 to byte array
-            byte[] imageBytes = java.util.Base64.getDecoder().decode(base64Image);
-            
-            // Validate content (simple check for image header)
-            if (imageBytes.length < 4) {
-                return ResponseEntity.badRequest().body("Invalid image data");
-            }
-            
-            // Check file size (max 2MB)
-            if (imageBytes.length > 2 * 1024 * 1024) {
-                return ResponseEntity.badRequest().body("File size exceeds maximum limit (2MB)");
-            }
-            
-            userService.saveProfilePicture(id, imageBytes);
-            return ResponseEntity.ok("Profile picture uploaded successfully");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body("Invalid Base64 format");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).body("Error uploading profile picture: " + e.getMessage());
-        }
-    }
+	/*
+	 * @PostMapping("/{id}/profile-picture-base64") public ResponseEntity<String>
+	 * uploadProfilePictureBase64(
+	 * 
+	 * @PathVariable Long id,
+	 * 
+	 * @RequestBody Map<String, String> request) {
+	 * 
+	 * try { String base64Image = request.get("image"); if (base64Image == null ||
+	 * base64Image.isEmpty()) { return
+	 * ResponseEntity.badRequest().body("No image data provided"); }
+	 * 
+	 * // Decode base64 to byte array byte[] imageBytes =
+	 * java.util.Base64.getDecoder().decode(base64Image);
+	 * 
+	 * // Validate content (simple check for image header) if (imageBytes.length <
+	 * 4) { return ResponseEntity.badRequest().body("Invalid image data"); }
+	 * 
+	 * // Check file size (max 2MB) if (imageBytes.length > 2 * 1024 * 1024) {
+	 * return
+	 * ResponseEntity.badRequest().body("File size exceeds maximum limit (2MB)"); }
+	 * 
+	 * userService.saveProfilePicture(id, imageBytes); return
+	 * ResponseEntity.ok("Profile picture uploaded successfully"); } catch
+	 * (IllegalArgumentException e) { return
+	 * ResponseEntity.badRequest().body("Invalid Base64 format"); } catch (Exception
+	 * e) { e.printStackTrace(); return
+	 * ResponseEntity.status(500).body("Error uploading profile picture: " +
+	 * e.getMessage()); } }
+	 */
 
     // Add this GET endpoint to retrieve the profile picture
-    @GetMapping("/{id}/profile-picture")
-    public ResponseEntity<?> getProfilePicture(@PathVariable Long id) {
-        try {
-            byte[] imageData = userService.getProfilePicture(id);
-            if (imageData == null || imageData.length == 0) {
-                return ResponseEntity.notFound().build();
-            }
-            return ResponseEntity.ok()
-                    .contentType(MediaType.IMAGE_JPEG) // You can detect actual type if needed
-                    .body(imageData);
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Error retrieving profile picture: " + e.getMessage());
-        }
-    }    
+	/*
+	 * @GetMapping("/{id}/profile-picture") public ResponseEntity<?>
+	 * getProfilePicture(@PathVariable Long id) { try { byte[] imageData =
+	 * userService.getProfilePicture(id); if (imageData == null || imageData.length
+	 * == 0) { return ResponseEntity.notFound().build(); } return
+	 * ResponseEntity.ok() .contentType(MediaType.IMAGE_JPEG) // You can detect
+	 * actual type if needed .body(imageData); } catch (Exception e) { return
+	 * ResponseEntity.status(500).body("Error retrieving profile picture: " +
+	 * e.getMessage()); } }
+	 */
     
 }

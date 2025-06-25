@@ -87,39 +87,31 @@ public class UserService {
     
     
  // Add this method to your UserService class
-    @Transactional
-    public void saveProfilePicture(Long id, byte[] imageBytes) {
-        try {
-            User user = userRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("User not found"));
-            
-            System.out.println("Image size: " + imageBytes.length + " bytes");
-            
-            // Clear Hibernate session to avoid issues with large objects
-            entityManager.flush();
-            entityManager.clear();
-            
-            // Set the profile picture
-            user.setProfilePicture(imageBytes);
-            
-            // Save with a fresh transaction
-            userRepository.saveAndFlush(user);
-            
-            System.out.println("Successfully saved profile picture for user ID: " + id);
-        } catch (Exception e) {
-            System.err.println("Error in saveProfilePicture: " + e.getMessage());
-            e.printStackTrace();
-            throw e;
-        }
-    }
-    
-
-    public byte[] getProfilePicture(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        
-        return user.getProfilePicture();
-    }
+	/*
+	 * @Transactional public void saveProfilePicture(Long id, byte[] imageBytes) {
+	 * try { User user = userRepository.findById(id) .orElseThrow(() -> new
+	 * RuntimeException("User not found"));
+	 * 
+	 * System.out.println("Image size: " + imageBytes.length + " bytes");
+	 * 
+	 * // Clear Hibernate session to avoid issues with large objects
+	 * entityManager.flush(); entityManager.clear();
+	 * 
+	 * // Set the profile picture user.setProfilePicture(imageBytes);
+	 * 
+	 * // Save with a fresh transaction userRepository.saveAndFlush(user);
+	 * 
+	 * System.out.println("Successfully saved profile picture for user ID: " + id);
+	 * } catch (Exception e) { System.err.println("Error in saveProfilePicture: " +
+	 * e.getMessage()); e.printStackTrace(); throw e; } }
+	 * 
+	 * 
+	 * public byte[] getProfilePicture(Long id) { User user =
+	 * userRepository.findById(id) .orElseThrow(() -> new
+	 * RuntimeException("User not found"));
+	 * 
+	 * return user.getProfilePicture(); }
+	 */
     
     
 }

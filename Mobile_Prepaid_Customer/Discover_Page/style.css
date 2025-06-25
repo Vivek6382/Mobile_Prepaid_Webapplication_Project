@@ -208,38 +208,57 @@ body {
 }
 
 
-/* Navigation Styling */
+/* ===== Navigation Styles ===== */
+/* ===== Navigation Styles ===== */
 .navigation_main {
+  background-color: var(--primary-color);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 0 5rem;
+}
+
+.navigation_main nav {
   display: flex;
   justify-content: center;
-  padding: 1rem 5rem;
-  background-color: var(--primary-color);
-  border-bottom: 2px solid var(--border-color);
-}
-
-.navigation_main nav ul {
-  display: flex;
-  gap: 2.5rem;
-  list-style: none;
-}
-
-.navigation_main nav ul li {
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: var(--text-color);
-  cursor: pointer;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 0;
   position: relative;
-  transition: 0.3s ease-in-out;
 }
 
-.navigation_main nav ul li a{
-  text-decoration: none;
+/* Navigation Links */
+.navigation_main .nav-links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 2rem;
+  transition: all 0.3s ease;
+}
+
+.navigation_main li {
+  position: relative;
+}
+
+.navigation_main a {
   color: var(--text-color);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  display: block;
 }
 
+.navigation_main a:hover,
+.navigation_main a:focus {
+  color: var(--highlight-color);
+  background-color: rgba(0, 102, 204, 0.1);
+}
 
 /* Underline Effect */
-.navigation_main nav ul li a::after {
+.navigation_main li a::after {
   content: '';
   width: 0;
   height: 3px;
@@ -250,283 +269,332 @@ body {
   transition: width 0.3s ease-in-out;
 }
 
-.navigation_main nav ul li a:hover::after {
+.navigation_main li a:hover::after {
   width: 100%;
 }
 
-.navigation_main nav ul li a:hover {
-  color: var(--highlight-color);
-  transform: translateY(-3px);
+/* Hamburger Menu Styles */
+.hamburger-menu {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 25px;
+  cursor: pointer;
+  z-index: 1001;
+  position: relative;
+}
+
+.hamburger-menu span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: var(--highlight-color);
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+/* Active state for hamburger menu */
+.hamburger-menu.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-menu.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-menu.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -6px);
 }
 
 
 
 
 
-
-/* Carousel */
+/* ================== IMPROVED CAROUSEL ================== */
 .carousel-container {
   width: 100%;
   position: relative;
   overflow: hidden;
-  background: var(--primary-color); /* Dark background */
-  padding: 10px;
+  background: var(--primary-color);
+  margin: 0;
+  padding: 0;
 }
 
-/* Adjust Splide Images */
 .splide__slide {
   position: relative;
+  overflow: hidden;
 }
 
 .splide__slide img {
   width: 100%;
-  height: 79vh;
-  object-fit: fill;
+  height: 80vh;
+  object-fit: cover;
   object-position: center;
-  border-radius: 15px;
-  filter: brightness(0.8);
+  filter: brightness(0.7);
+  transition: transform 0.5s ease;
 }
 
-/* Glassmorphic Effect for Content */
+.splide__slide:hover img {
+  transform: scale(1.02);
+}
+
+/* Glassmorphic Content Card */
 .carousel-content {
   position: absolute;
   left: 10%;
   top: 50%;
   transform: translateY(-50%);
   color: var(--text-color);
-  background: var(--glassmorph-color); /* Red-orange tint */
-  padding: 40px;
-  border-radius: 15px;
-  width: 30%;
-  height: 90%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--glassmorph-border);
+  background: rgba(26, 26, 26, 0.85);
+  padding: 2.5rem;
+  width: min(35%, 500px);
+  min-width: 300px;
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 69, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s ease;
 }
 
-/* Enhanced Text */
 .carousel-content h2 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-  text-transform: uppercase;
-  font-weight: bold;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  margin-bottom: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .carousel-content p {
-  font-size: 1.3rem;
-  margin-bottom: 20px;
+  font-size: clamp(1rem, 1.5vw, 1.3rem);
+  margin-bottom: 2rem;
+  line-height: 1.5;
+  opacity: 0.9;
 }
 
-/* CTA Button */
+/* CTA Button with Gradient */
 .carousel-btn {
-  display: inline-block;
-  background: var(--secondary-color);
-  color: var(--text-color);
-  padding: 12px 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--secondary-color), #e63900);
+  color: white;
+  padding: 0.8rem 1.8rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: clamp(0.9rem, 1.2vw, 1.1rem);
   text-decoration: none;
-  border-radius: 5px;
-  font-weight: bold;
-  font-size: 1.1rem;
-  transition: all 0.3s ease-in-out;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 69, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.5s;
 }
 
 .carousel-btn:hover {
-  background: darkred;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(255, 69, 0, 0.6);
+}
+
+.carousel-btn:hover::before {
+  left: 100%;
+}
+
+/* Navigation Arrows */
+.splide__arrow {
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 69, 0, 0.8) !important;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  opacity: 1;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.splide__arrow svg {
+  width: 1.5em;
+  height: 1.5em;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.3));
+}
+
+.splide__arrow:hover {
+  background: var(--secondary-color) !important;
   transform: scale(1.1);
 }
 
-/* Enhanced Navigation Arrows */
-.splide__arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255, 69, 0, 0.6);
-  border: none;
-  color: var(--text-color);
-  padding: 12px;
-  cursor: pointer;
-  border-radius: 50%;
-  font-size: 1.8rem;
-  transition: all 0.3s ease-in-out;
-  box-shadow: 0 0 10px rgba(255, 69, 0, 0.8);
-}
-
 .splide__arrow--prev {
-  left: 15px;
+  left: 20px;
 }
 
 .splide__arrow--next {
-  right: 15px;
-}
-
-/* On Hover */
-.splide__arrow:hover {
-  background: var(--secondary-color);
+  right: 20px;
 }
 
 /* Progress Bar */
 .my-slider-progress {
   position: absolute;
-  bottom: 10px;
-  left: 5%;
-  width: 90%;
-  height: 5px;
-  background: var(--slider-progress-bg);
-  border-radius: 5px;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 600px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 10;
 }
 
 .my-slider-progress-bar {
-  background: var(--slider-progress-bar);
-  height: 5px;
-  transition: width 400ms ease;
+  background: linear-gradient(90deg, var(--secondary-color), #ff8c66);
+  height: 100%;
+  transition: width 400ms cubic-bezier(0.25, 0.1, 0.25, 1);
   width: 0;
-  border-radius: 5px;
 }
 
 
 
 
-
-/* Quick-Recharge */
-/* Quick Recharge Section */
+/* ================== QUICK RECHARGE SECTION ================== */
 .quick_recharge_section {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: var(--dark-background);
-  border-bottom: 1px solid (--subtext-color);
+  padding: 3rem 1rem;
+  background-color: #121212; /* Hardcoded dark color for certainty */
+  min-height: 320px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 }
 
-/* Main Recharge Box */
+
 .main-recharge {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
-  width: 470px; /* Increased width */
-  background: var(--secondary-background);
-  border: 1px solid var(--border-color);
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* Light shadow for contrast */
+  padding: 2rem;
+  width: 100%;
+  max-width: 480px;
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* Recharge Title */
 .recharge_title {
   width: 100%;
   text-align: center;
-  padding: 10px 0;
-  font-size: 1.2rem;
+  padding: 0.75rem 0;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
   font-weight: bold;
   color: var(--text-color);
   border-bottom: 1px solid var(--border-light);
 }
 
-/* Recharge Input Box */
 .recharge_input_box {
-  background: var(--input-background);
-  padding: 16px; /* Slightly increased height */
-  border-radius: 10px;
-  margin: 15px 0;
   width: 100%;
+  padding: 1rem;
 }
-
-/* Input Field with +91 */
-.recharge_input_box form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-
 
 .recharge_input_container {
   display: flex;
-  align-items: center;
-  justify-content: space-between; /* Add space between elements */
   width: 100%;
-  height: 48px; /* Set a consistent height */
+  gap: 12px;
+  align-items: center;
 }
 
-/* Wrapper for the rupees_div and phoneNumber_input_div */
 .rechange_input_elements {
   display: flex;
-  align-items: center;
-  height: 42px; /* Adjusted height to match button */
+  flex: 1;
+  height: 52px; /* Slightly taller */
 }
 
 .rupees_div {
   display: flex;
   align-items: center;
-  height: 100%; /* Match container height */
+  justify-content: center;
+  background: var(--input-background);
+  padding: 0 1rem;
+  border: 1px solid var(--border-light);
+  border-right: none;
+  border-radius: 6px 0 0 6px;
+  height: 100%;
 }
-
 
 .rupees_div p {
-  background: white;
-  color: black;
-  padding: 10px;
-  border-radius: 5px 0 0 5px;
-  font-size: 1rem;
+  color: var(--text-color);
   font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%; /* Match container height */
-  line-height: normal; /* Ensure text doesn’t shift */
-  text-align: center;
-  margin: auto 0;
+  margin: 0;
 }
 
+.phoneNumber_input_div {
+  flex: 1;
+  height: 100%;
+}
 
 .phoneNumber_input_div input[type="tel"] {
-  flex: 1;
-  padding: 10px;
-  border: none;
-  outline: none;
-  font-size: 1rem;
-  background: var(--slider-progress-bg);
+  width: 100%;
+  height: 100%;
+  padding: 0 1rem;
+  border: 1px solid var(--border-light);
+  border-left: none;
+  border-radius: 0 6px 6px 0;
+  background: var(--input-background);
   color: var(--text-color);
-  height: 100%; /* Match container height */
-  border-radius: 0;
-  line-height: normal; /* Ensure consistent spacing */
+  font-size: 1rem;
+  outline: none;
 }
 
+.recharge_input_div {
+  min-width: 120px;
+}
 
-/* Submit Button */
 .recharge_input_div input[type="submit"] {
-  padding: 10px 20px; /* Adjust padding for pill shape */
+  width: 100%;
+  height: 48px;
+  padding: 0 1.5rem;
   background: var(--submit-button-bg);
   color: var(--text-color);
   border: none;
-  border-radius: 999px; /* Make the button rounded (pill shape) */
+  border-radius: 6px;
   font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
-  transition: 0.3s;
-  height: 42px; /* Match the adjusted input height */
+  transition: all 0.3s ease;
 }
 
 .recharge_input_div input[type="submit"]:hover {
   background: var(--submit-button-hover);
+  transform: translateY(-2px);
 }
 
-
-/* Error Message Below */
 .error-message {
-  color: #ff0000; /* Brighter red */
-  font-size: 1rem; /* Increased font size */
-  margin-top: 6px; /* Added margin for spacing */
-  display: block;
+  color: #ff4444;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
   text-align: center;
-  font-weight: bold; /* Optional: Make it bold for better visibility */
+  font-weight: bold;
+  height: 1rem;
 }
+
 
 /* SIM Management Title */
-.sim_management_title {
+/* .sim_management_title {
   width: 100%;
   text-align: center;
   margin-top: 10px;
@@ -537,10 +605,10 @@ body {
   font-size: 1.2rem;
   font-weight: bold;
   color: var(--text-color);
-}
+} */
 
 /* SIM Management Section */
-.sim_managements {
+/* .sim_managements {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -550,10 +618,10 @@ body {
   border-top: 1px solid var(--border-light);
   text-align: center;
   margin-top: 10px;
-}
+} */
 
 /* Individual SIM Box */
-.get_mobi-comm_sim,
+/* .get_mobi-comm_sim,
 .lost_mobi-comm_sim,
 .port_to_mobi-comm_sim {
   flex: 1 1 30%;
@@ -568,24 +636,24 @@ body {
 .lost_mobi-comm_sim:hover,
 .port_to_mobi-comm_sim:hover {
   background: var(--hover-bg);
-}
+} */
 
 /* SIM Images */
-.get_mobi-comm_sim img,
+/* .get_mobi-comm_sim img,
 .lost_mobi-comm_sim img,
 .port_to_mobi-comm_sim img {
   width: 40px;
   height: 40px;
   margin-bottom: 5px;
-}
+} */
 
 /* SIM Text */
-.get_mobi-comm_sim p,
+/* .get_mobi-comm_sim p,
 .lost_mobi-comm_sim p,
 .port_to_mobi-comm_sim p {
   color: var(--text-color);
   font-size: 0.9rem;
-}
+} */
 
 
 
@@ -612,10 +680,13 @@ body {
 
 /* Best Plans Section */
 .best_plans_cards {
-  padding: 20px;
+  padding: 3rem 1rem; /* Increased padding to match */
   width: 100%;
-  background-color: #121212;
+  background-color: var(--dark-background);
+  text-align: center;
+  margin-top: -1rem; /* Pull up slightly to close any gap */
 }
+
 
 /* Best Plans Cards Container */
 .best_plans_div {
@@ -1530,4 +1601,328 @@ p.service_text {
   margin-top: 5px;
   font-size: 14px;
   color: #bbb;
+}
+
+
+
+/* Mobile Devices (up to 767px) */
+@media (max-width: 767px) {
+  /* Header Stacking */
+  .header_main {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .first_header_part h4 a {
+    font-size: 1.8rem;
+  }
+  
+  .second_header_part {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  /* Admin Button */
+  .admin_btn {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+  
+  /* Search Box */
+  .search-container {
+    width: 60%;
+  }
+  
+  /* Centered Mobile Navigation */
+  .navigation_main {
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .navigation_main nav {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .hamburger-menu {
+    display: flex;
+    margin: 0 auto;
+  }
+  
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--primary-color);
+    z-index: 1000;
+    border-bottom: 2px solid var(--highlight-color);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+  }
+  
+  .nav-links.active {
+    max-height: 500px;
+    padding: 1rem 0;
+  }
+  
+  .nav-links li {
+    width: 100%;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease;
+    border-bottom: 1px solid rgba(255, 69, 0, 0.1);
+  }
+  
+  .nav-links li:last-child {
+    border-bottom: none;
+  }
+  
+  .nav-links li:hover {
+    background-color: rgba(255, 69, 0, 0.1);
+  }
+  
+  .nav-links a {
+    padding: 1rem;
+    font-size: 1.1rem;
+    color: var(--text-color);
+    position: relative;
+    display: block;
+  }
+  
+  .nav-links a:hover {
+    color: var(--highlight-color);
+    background-color: transparent;
+  }
+  
+  /* Mobile underline effect */
+  .nav-links li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 8px;
+    left: 50%;
+    background-color: var(--highlight-color);
+    transition: width 0.3s ease, left 0.3s ease;
+  }
+  
+  .nav-links li a:hover::after {
+    width: 80%;
+    left: 10%;
+  }
+
+  /* User Dropdown */
+  .dropdown-content {
+    min-width: 180px;
+    right: -20px;
+  }
+  
+  /* Carousel Mobile Optimization */
+  .carousel-container {
+    height: 60vh;
+  }
+  
+  .splide__slide img {
+    height: 60vh;
+    object-fit: cover;
+  }
+  
+  .carousel-content {
+    width: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    height: auto;
+  }
+  
+  .carousel-content h2 {
+    font-size: 1.5rem;
+  }
+  
+  .carousel-content p {
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
+  
+  .carousel-btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+  
+  /* Quick Recharge Mobile */
+  .quick_recharge_section {
+    padding: 2rem 1rem;
+  }
+  
+  .main-recharge {
+    width: 90%;
+  }
+  
+  .recharge_input_container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .rechange_input_elements {
+    width: 100%;
+  }
+  
+  .phoneNumber_input_div input[type="tel"] {
+    border-left: 1px solid var(--border-light);
+    border-radius: 6px;
+  }
+  
+  .rupees_div {
+    border-right: 1px solid var(--border-light);
+    border-radius: 6px 6px 0 0;
+  }
+  
+  .phoneNumber_input_div input[type="tel"] {
+    border-radius: 0 0 6px 6px;
+  }
+  
+  .recharge_input_div {
+    width: 100%;
+  }
+  
+  /* Best Plans Cards */
+  .best_card {
+    width: 100%;
+    max-width: 350px;
+  }
+  
+  /* Best Prepaid Plans */
+  .best_plans_cards {
+    padding: 1.5rem 1rem;
+  }
+  
+  /* Why Choose Us */
+  .section-head h4 {
+    font-size: 28px;
+  }
+  
+  .item {
+    padding: 20px 15px;
+  }
+  
+  /* Footer Stacking */
+  .footer-section {
+    flex: 1 1 100%;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  .social-icons {
+    justify-content: center;
+  }
+  
+  /* Popup Adjustments */
+  .popup-container-custom {
+    width: 90%;
+  }
+  
+  .popup-body-custom {
+    max-height: 50vh;
+  }
+}
+
+/* Small Mobile Devices (up to 480px) */
+@media (max-width: 480px) {
+  /* Header */
+  .admin_btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+  
+  .user-dropdown i {
+    font-size: 1.2rem;
+  }
+  
+  /* Navigation */
+  .navigation_main {
+    padding: 0.5rem;
+  }
+  
+  .nav-links a {
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+
+  /* Dropdown adjustments */
+  .dropdown-content {
+    min-width: 160px;
+    right: -10px;
+  }
+  
+  .dropdown-content a {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+  
+  /* Carousel */
+  .carousel-content {
+    width: 90%;
+    padding: 15px;
+  }
+  
+  .carousel-content h2 {
+    font-size: 1.3rem;
+  }
+  
+  /* Quick Recharge */
+  .quick_recharge_section {
+    padding: 1.5rem 1rem;
+  }
+  
+  .main-recharge {
+    padding: 1.25rem;
+  }
+  
+  .recharge_title {
+    font-size: 1.1rem;
+  }
+  
+  .recharge_input_box {
+    padding: 0.75rem;
+  }
+  
+  /* Best Prepaid Plans */
+  .best_plans_cards {
+    padding: 1rem 0.5rem;
+  }
+  
+  /* Why Choose Us */
+  .section-head h4 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .section-head p {
+    font-size: 14px;
+  }
+  
+  /* Support Section */
+  .support-container {
+    padding: 20px 15px;
+  }
+  
+  .support-title {
+    font-size: 24px;
+  }
+  
+  .faq-section,
+  .support-navigation {
+    min-width: 100%;
+  }
 }

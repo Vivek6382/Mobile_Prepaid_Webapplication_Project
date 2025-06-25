@@ -56,10 +56,10 @@ public class User {
     private Boolean isActive = true;
     
     
-    @Lob
-    @Column(name = "profile_picture", columnDefinition = "LONGBLOB")
-    @Basic(fetch = FetchType.LAZY)
-    private byte[] profilePicture;
+//    @Lob
+//    @Column(name = "profile_picture", columnDefinition = "LONGBLOB")
+//    @Basic(fetch = FetchType.LAZY)
+//    private byte[] profilePicture;
 
 
     @ManyToOne
