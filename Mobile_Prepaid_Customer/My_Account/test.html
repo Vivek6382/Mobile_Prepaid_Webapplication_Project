@@ -1,3 +1,597 @@
+<!-- 
+/* Mobile Devices (up to 767px) */
+@media (max-width: 767px) {
+  /* Header Stacking */
+  .header_main {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .first_header_part h4 a {
+    font-size: 1.8rem;
+  }
+  
+  .second_header_part {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  
+  /* Centered Mobile Navigation */
+  .navigation_main {
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .navigation_main nav {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .hamburger-menu {
+    display: flex;
+    margin: 0 auto;
+  }
+  
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--primary-color);
+    z-index: 1000;
+    border-bottom: 2px solid var(--highlight-color);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+  }
+  
+  .nav-links.active {
+    max-height: 500px;
+    padding: 1rem 0;
+  }
+  
+  .nav-links li {
+    width: 100%;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease;
+    border-bottom: 1px solid rgba(255, 69, 0, 0.1);
+  }
+  
+  .nav-links li:last-child {
+    border-bottom: none;
+  }
+  
+  .nav-links li:hover {
+    background-color: rgba(255, 69, 0, 0.1);
+  }
+  
+  .nav-links a {
+    padding: 1rem;
+    font-size: 1.1rem;
+    color: var(--text-color);
+    position: relative;
+    display: block;
+  }
+  
+  .nav-links a:hover {
+    color: var(--highlight-color);
+    background-color: transparent;
+  }
+  
+  /* Mobile underline effect */
+  .nav-links li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 8px;
+    left: 50%;
+    background-color: var(--highlight-color);
+    transition: width 0.3s ease, left 0.3s ease;
+  }
+  
+  .nav-links li a:hover::after {
+    width: 80%;
+    left: 10%;
+  }
+
+  /* User Dropdown */
+  .dropdown-content {
+    min-width: 180px;
+    right: -20px;
+  }
+
+}
+
+/* Small Mobile Devices (up to 480px) */
+@media (max-width: 480px) {
+  /* Header */
+  .user-dropdown i {
+    font-size: 1.2rem;
+  }
+  
+  /* Navigation */
+  .navigation_main {
+    padding: 0.5rem;
+  }
+  
+  .nav-links a {
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+
+  /* Dropdown adjustments */
+  .dropdown-content {
+    min-width: 160px;
+    right: -10px;
+  }
+  
+  .dropdown-content a {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+} -->
+
+
+
+
+<!-- 
+/* ===== RESPONSIVE DESIGN - CORRECTED ===== */
+
+/* Small devices (landscape phones, 576px and up) */
+@media (max-width: 991px) {
+  /* Main Layout */
+  .d-flex {
+    flex-direction: column;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .logout {
+    margin-top: 20px;
+  }
+  
+  /* Profile Card */
+  .profile-row {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #profile-container {
+    margin-bottom: 20px;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .details-container {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  /* Plan Container */
+  .plan-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .vi_card, 
+  .transaction-card {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  /* Recharge History */
+  .expiring-customer_navigation ul {
+    flex-direction: column;
+  }
+  
+  .filtering_navs,
+  .tools {
+    width: 100%;
+  }
+  
+  .filtering_navs {
+    margin-bottom: 15px;
+  }
+  
+  .cust_manage_card {
+    margin-bottom: 15px;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991px) {
+  /* FIX: Tablet Sidebar Layout - Fixed positioning with proper content margin */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 20px;
+    margin-bottom: 0;
+  }
+  
+  .content {
+    margin-left: 250px;
+    padding: 20px;
+  }
+  
+  .list-unstyled {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .stats {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  
+  /* Profile Card */
+  .profile-row {
+    flex-direction: row;
+  }
+  
+  /* Plan Container */
+  .plan-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  .vi_card {
+    width: calc(50% - 15px);
+  }
+  
+  .transaction-card {
+    width: 100%;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  /* Default desktop styles (your existing CSS) */
+}
+
+/* Extra small devices (phones, less than 576px) */
+@media (max-width: 575px) {
+  /* FIX: Text Overflow in Profile Section - Ensure all text stays within container */
+  .account-card {
+    padding: 15px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  /* FIX: Profile text containment */
+  .account-card p,
+  .account-card span,
+  .details-container * {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    white-space: normal;
+  }
+  
+  /* FIX: Transaction Button Layout - Stack vertically with proper spacing */
+  .cust_card_footer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .cust_card_footer i {
+    width: 100%;
+    text-align: center;
+    padding: 8px;
+    margin: 0;
+  }
+  
+  /* Ensure transaction card content doesn't overflow */
+  .cust_manage_card {
+    overflow: hidden;
+    word-wrap: break-word;
+    box-sizing: border-box;
+  }
+  
+  .recharge_history_info {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+  }
+  
+  /* Popups */
+  .popup-content,
+  .transaction-popup-content,
+  .popup-container-custom {
+    width: 95%;
+    max-width: 95%;
+    padding: 15px;
+  }
+  
+  .popup-footer {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  #update-btn, 
+  #cancel-update {
+    width: 100%;
+  }
+  
+  /* Recharge History Cards */
+  .recharge_history_row {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .recharge_mobile_div,
+  .recharge_name_div,
+  .recharge_plan_div {
+    min-width: 100%;
+    text-align: left;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  /* Transaction Popup */
+  .transaction-popup-buttons {
+    flex-direction: column;
+  }
+  
+  #transaction-done-btn,
+  #transaction-download-btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+/* FIX: Sidebar Mobile Toggle - Corrected z-index hierarchy */
+@media (max-width: 991px) {
+  .mobile-menu-toggle {
+    display: block;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1002; /* Increased to appear above sidebar */
+    color: #ff4500;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 80%;
+    max-width: 300px;
+    height: 100vh;
+    z-index: 1000;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+  }
+  
+  .sidebar.active {
+    left: 0;
+  }
+  
+  /* FIX: Overlay Transition Issue - Smooth disappear transition */
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .sidebar-overlay.active {
+    display: block;
+    opacity: 1;
+  }
+  
+  .content {
+    padding-top: 60px;
+  }
+}
+
+/* Mobile Devices (up to 767px) */
+@media (max-width: 767px) {
+  /* Header Stacking */
+  .header_main {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .first_header_part h4 a {
+    font-size: 1.8rem;
+  }
+  
+  .second_header_part {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  
+  /* Centered Mobile Navigation */
+  .navigation_main {
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .navigation_main nav {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+  
+  /* FIX: Navigation hamburger z-index - Adjusted to stay below sidebar */
+  .hamburger-menu {
+    display: flex;
+    margin: 0 auto;
+    z-index: 998; /* Lower than sidebar and mobile-menu-toggle */
+  }
+  
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--primary-color);
+    z-index: 997; /* Lower than hamburger menu */
+    border-bottom: 2px solid var(--highlight-color);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+  }
+  
+  .nav-links.active {
+    max-height: 500px;
+    padding: 1rem 0;
+  }
+  
+  .nav-links li {
+    width: 100%;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease;
+    border-bottom: 1px solid rgba(255, 69, 0, 0.1);
+  }
+  
+  .nav-links li:last-child {
+    border-bottom: none;
+  }
+  
+  .nav-links li:hover {
+    background-color: rgba(255, 69, 0, 0.1);
+  }
+  
+  .nav-links a {
+    padding: 1rem;
+    font-size: 1.1rem;
+    color: var(--text-color);
+    position: relative;
+    display: block;
+  }
+  
+  .nav-links a:hover {
+    color: var(--highlight-color);
+    background-color: transparent;
+  }
+  
+  /* Mobile underline effect */
+  .nav-links li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 8px;
+    left: 50%;
+    background-color: var(--highlight-color);
+    transition: width 0.3s ease, left 0.3s ease;
+  }
+  
+  .nav-links li a:hover::after {
+    width: 80%;
+    left: 10%;
+  }
+
+  /* User Dropdown */
+  .dropdown-content {
+    min-width: 180px;
+    right: -20px;
+  }
+}
+
+/* Small Mobile Devices (up to 480px) */
+@media (max-width: 480px) {
+  /* Header */
+  .user-dropdown i {
+    font-size: 1.2rem;
+  }
+  
+  /* Navigation */
+  .navigation_main {
+    padding: 0.5rem;
+  }
+  
+  .nav-links a {
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+
+  /* Dropdown adjustments */
+  .dropdown-content {
+    min-width: 160px;
+    right: -10px;
+  }
+  
+  .dropdown-content a {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+}
+
+/* FIX: iPhone SE (320px) - Additional text overflow prevention */
+@media (max-width: 320px) {
+  .account-card,
+  .cust_manage_card {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+  
+  .recharge_mobile_div span,
+  .recharge_name_div span,
+  .recharge_plan_div span {
+    font-size: 0.85rem;
+    line-height: 1.2;
+  }
+  
+  /* Extra small transaction buttons */
+  .cust_card_footer i {
+    padding: 6px;
+    font-size: 0.9rem;
+  }
+} -->
+
+
 <!-- {
     "transaction_details": {
       "9876543210": [

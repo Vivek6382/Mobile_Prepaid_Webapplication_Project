@@ -14,41 +14,48 @@
 <body>
 
 
+    <!-- Mobile Menu Toggle (will be shown only on mobile) -->
+<div class="mobile-menu-toggle" style="display: none;">
+  <i class="fas fa-bars"></i>
+</div>
 
-    <header class="main-header">
-        <div class="logo-section">
-            <h4><a href="/Mobile_Prepaid_Customer/Discover_Page/index.html"><span>MOBI</span>-COMM.</a></h4>
-        </div>
-        <div class="header-right">
-            <!-- <div class="search-box">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="Search...">
-            </div> -->
-            <div class="profile-menu">
-                <i class="fa-solid fa-user"></i>
-                <div class="dropdown-options">
-                    <a href="/Mobile_Prepaid_Customer/My_Account/My_Account.html" id="myAccountBtn">My Account</a>
-                    <a href="#" id="signOutBtn">Sign-out</a>
-                </div>
-            </div>
-        </div>
-    </header>
+<!-- Overlay for sidebar (will be shown only when sidebar is active) -->
+<div class="sidebar-overlay" style="display: none;"></div>
 
-    <div class="nav-container">
-        <nav>
-            <ul>
-                <li><a href="/Mobile_Prepaid_Customer/Discover_Page/index.html">Home</a></li>
-                <li><a href="/Mobile_Prepaid_Customer/Prepaid_plans_Page/Popular_plans/prepaid.html">Prepaid Plans</a>
-                </li>
-                <li><a href="/Mobile_Prepaid_Customer/Recharge_Page/recharge.html">Recharge</a></li>
-                <!-- <li><a href="#">SIM Management</a></li> -->
-                <!-- <li><a href="/Mobile_Prepaid_Customer/Support/support.html">Support</a></li> -->
-            </ul>
-        </nav>
+
+
+<header class="header_main">
+  <div class="first_header_part">
+    <h4><a href="/Mobile_Prepaid_Customer/Discover_Page/index.html"><span>MOBI</span>-COMM.</a></h4>
+  </div>
+  <div class="second_header_part">
+    <div class="user-dropdown">
+      <i class="fa-solid fa-user" id="userIcon"></i>
+      <div class="dropdown-content">
+        <a href="/Mobile_Prepaid_Customer/My_Account/My_Account.html" id="myAccountBtn">My Account</a>
+        <a href="#" id="signOutBtn">Sign-out</a>
+      </div>
     </div>
+  </div>
+</header>
 
-
-
+<div class="navigation_main">
+  <nav>
+    <!-- Hamburger Menu Button -->
+    <div class="hamburger-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    
+    <!-- Navigation Links -->
+    <ul class="nav-links">
+      <li><a href="/Mobile_Prepaid_Customer/Discover_Page/index.html">Home</a></li>
+      <li><a href="/Mobile_Prepaid_Customer/Prepaid_plans_Page/Popular_plans/prepaid.html">Prepaid Plans</a></li>
+      <li><a href="/Mobile_Prepaid_Customer/Recharge_Page/recharge.html">Recharge</a></li>
+    </ul>
+  </nav>
+</div>
 
 
 

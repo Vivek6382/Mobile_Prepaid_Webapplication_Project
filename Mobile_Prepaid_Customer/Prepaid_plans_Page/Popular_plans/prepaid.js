@@ -2,10 +2,12 @@
 // Profile-DropDown-JS
 
 document.addEventListener("DOMContentLoaded", function () {
+    // User dropdown functionality
     const userDropdown = document.querySelector(".user-dropdown");
     const userIcon = document.getElementById("userIcon");
     const dropdownContent = document.querySelector(".dropdown-content");
     const signOutBtn = document.getElementById("signOutBtn");
+    const myAccountBtn = document.getElementById("myAccountBtn");
 
     function updateDropdown() {
         const currentCustomer = sessionStorage.getItem("currentCustomer");
@@ -28,6 +30,12 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
         if (currentCustomer && accessToken) {
+            // My Account functionality
+            myAccountBtn.onclick = function(event) {
+                event.preventDefault();
+                window.location.href = "/Mobile_Prepaid_Customer/My_Account/My_Account.html";
+            };
+            
             // Sign-out functionality with backend logout
             signOutBtn.onclick = async function (event) {
                 event.preventDefault();
@@ -45,16 +53,16 @@ document.addEventListener("DOMContentLoaded", function () {
                         })
                     });
 
-                    // Clear session storage regardless of logout response
+                    // Clear session storage
                     sessionStorage.removeItem("accessToken");
                     sessionStorage.removeItem("currentCustomer");
                     localStorage.removeItem("accessToken");
 
-                    // Redirect to login page
+                    // Redirect
                     window.location.href = "/Mobile_Prepaid_Customer/Recharge_Page/recharge.html";
                 } catch (error) {
                     console.error("Logout error:", error);
-                    // Fallback: Clear session storage
+                    // Fallback clear
                     sessionStorage.removeItem("accessToken");
                     sessionStorage.removeItem("currentCustomer");
                     localStorage.removeItem("accessToken");
@@ -85,54 +93,39 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-document.addEventListener('DOMContentLoaded', function() {
-  // Hamburger menu functionality
-  const hamburger = document.querySelector('.hamburger-menu');
-  const navLinks = document.querySelector('.navigation_main .nav-links');
-  
-  if (hamburger && navLinks) {
-    hamburger.addEventListener('click', function(e) {
-      e.stopPropagation();
-      this.classList.toggle('active');
-      navLinks.classList.toggle('active');
-    });
+function setupHamburgerMenu() {
+    // Hamburger menu functionality
+    const hamburger = document.querySelector('.hamburger-menu');
+    const navLinks = document.querySelector('.navigation_main .nav-links');
     
-    // Close menu when clicking on a link
-    const navItems = document.querySelectorAll('.navigation_main a');
-    navItems.forEach(item => {
-      item.addEventListener('click', function() {
-        hamburger.classList.remove('active');
-        navLinks.classList.remove('active');
-      });
-    });
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', function(e) {
-      if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
-        hamburger.classList.remove('active');
-        navLinks.classList.remove('active');
-      }
-    });
-  }
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        
+        // Close menu when clicking on a link
+        const navItems = document.querySelectorAll('.navigation_main a');
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
+        });
+    }
+}
 
-  // User dropdown functionality
-  const userDropdown = document.querySelector('.user-dropdown');
-  const userIcon = document.getElementById('userIcon');
-  
-  if (userDropdown && userIcon) {
-    userIcon.addEventListener('click', function(e) {
-      e.stopPropagation();
-      userDropdown.classList.toggle('active');
-    });
-    
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(e) {
-      if (!userDropdown.contains(e.target)) {
-        userDropdown.classList.remove('active');
-      }
-    });
-  }
-});
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', setupHamburgerMenu);
 
 
 

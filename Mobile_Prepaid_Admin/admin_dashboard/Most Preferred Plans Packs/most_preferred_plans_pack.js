@@ -1,7 +1,4 @@
 // Admin Profile Dropdown JS
-
-// Admin Profile Dropdown JS
-// Admin Profile Dropdown JS
 document.addEventListener("DOMContentLoaded", function () {
     const adminUserDropdown = document.querySelector(".admin_user_dropdown");
     const adminUserIcon = document.getElementById("adminUserIcon");
@@ -126,6 +123,52 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+// Standalone Hamburger Menu JS
+document.addEventListener('DOMContentLoaded', function() {
+    // Hamburger menu elements
+    const hamburger = document.querySelector('.admin_hamburger_menu');
+    const navLinks = document.querySelector('.admin_nav_links');
+    
+    // Only proceed if hamburger menu elements exist
+    if (hamburger && navLinks) {
+        // Toggle menu on hamburger click
+        hamburger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            
+            // Add animation delay to menu items
+            document.querySelectorAll('.admin_nav_links li').forEach((item, index) => {
+                item.style.setProperty('--i', index);
+            });
+        });
+        
+        // Close menu when clicking on nav links
+        const navItems = document.querySelectorAll('.admin_navigation a');
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
+        });
+        
+        // Optional: Close menu when window is resized (for responsive behavior)
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) { // Adjust breakpoint as needed
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
+        });
+    }
+});
 
 
 

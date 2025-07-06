@@ -158,6 +158,57 @@ function setupEventListeners() {
 
 
 
+document.addEventListener('DOMContentLoaded', function() {
+    // Hamburger menu functionality
+    const hamburger = document.querySelector('.admin_hamburger_menu');
+    const navLinks = document.querySelector('.admin_nav_links');
+    const userDropdown = document.querySelector('.admin_user_dropdown');
+    const userIcon = document.getElementById('adminUserIcon');
+    
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            
+            // Add index for animation delay
+            document.querySelectorAll('.admin_nav_links li').forEach((item, index) => {
+                item.style.setProperty('--i', index);
+            });
+        });
+        
+        // Close menu when clicking on a link
+        const navItems = document.querySelectorAll('.admin_navigation a');
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
+            
+            if (userDropdown && !userDropdown.contains(e.target)) {
+                userDropdown.classList.remove('active');
+            }
+        });
+    }
+    
+    // User dropdown functionality
+    if (userIcon && userDropdown) {
+        userIcon.addEventListener('click', function(e) {
+            e.stopPropagation();
+            userDropdown.classList.toggle('active');
+        });
+    }
+});
+
+
 
 document.addEventListener("DOMContentLoaded", function () {
   // API endpoints

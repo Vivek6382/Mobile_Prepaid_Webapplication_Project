@@ -28,48 +28,43 @@
 
     <!-- Navigation-Section -->
 
-    <header class="admin_header">
-        <div class="admin_header_logo">
-            <h4><a
-                    href="/Mobile_Prepaid_Admin/admin_dashboard/Summary_View/admin_dashboard.html"><span>MOBI</span>-COMM.</a>
-            </h4>
-        </div>
-        <div class="admin_header_controls">
-            <!-- <div class="admin_customer_btn">
-                <i class="fa-solid fa-store"></i>
-                <p><a href="/Mobile_Prepaid_Customer/Discover_Page/index.html">Customer</a></p>
-            </div> -->
-
-            <!-- <div class="admin_search">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="Search...">
-            </div> -->
-
-            <div class="admin_user_dropdown">
-                <i class="fa-solid fa-user" id="adminUserIcon"></i>
-                <div class="admin_dropdown_content" id="adminDropdownContent">
-                    <!-- <a href="/Mobile_Prepaid_Customer/My_Account/My_Account.html">My Account</a> -->
-                    <a href="#" id="adminSignOutBtn">Sign-out</a>
-                </div>
-            </div>
-
-        </div>
-    </header>
-
-    <div class="admin_navigation">
-        <nav>
-            <ul>
-                <li><a href="/Mobile_Prepaid_Admin/admin_dashboard/Summary_View/admin_dashboard.html">Dashboard</a></li>
-                <li><a href="/Mobile_Prepaid_Admin/Prepaid_Plans_Management/prepaid_plan_management.html">Prepaid Plans
-                        Management</a></li>
-                <li><a href="/Mobile_Prepaid_Admin/Customer_Management/customer_management.html">Customer Management</a>
-                </li>
-                <li><a href="/Mobile_Prepaid_Admin/Transcation_History_Page/transcation_history.html">Transcation
-                        Management</a></li>
-                <!-- <li><a href="#">Support Management</a></li> -->
-            </ul>
-        </nav>
+    <!-- Admin Navigation-Section -->
+<header class="admin_header">
+    <div class="admin_header_logo">
+        <h4><a href="/admin_dashboard.html"><span>MOBI</span>-COMM.</a></h4>
     </div>
+    <div class="admin_header_controls">
+        <div class="admin_user_dropdown">
+            <i class="fa-solid fa-user" id="adminUserIcon"></i>
+            <div class="admin_dropdown_content">
+                <a href="/admin_account.html" id="adminMyAccountBtn">My Account</a>
+                <a href="#" id="adminSignOutBtn">Sign-out</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="admin_navigation">
+    <nav>
+        <!-- Hamburger Menu Button -->
+        <div class="admin_hamburger_menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+        <!-- Navigation Links -->
+        <ul class="admin_nav_links">
+            <li><a href="/Mobile_Prepaid_Admin/admin_dashboard/Summary_View/admin_dashboard.html">Dashboard</a></li>
+            <li><a href="/Mobile_Prepaid_Admin/Prepaid_Plans_Management/prepaid_plan_management.html">Prepaid Plans Management</a></li>
+            <li><a href="/Mobile_Prepaid_Admin/Customer_Management/customer_management.html">Customer Management</a></li>
+            <li><a href="/Mobile_Prepaid_Admin/Transcation_History_Page/transcation_history.html">Transaction Management</a></li>
+        </ul>
+    </nav>
+</div>
+    
+
+
 
     <!-- Expiry-Page -->
     <section class="admin_nav_section">

@@ -1,129 +1,155 @@
-// Admin Profile Dropdown JS
-
-// Admin Profile Dropdown JS
-document.addEventListener("DOMContentLoaded", function () {
+// Profile Dropdown JS (Standalone)
+document.addEventListener("DOMContentLoaded", function() {
+    // Elements
     const adminUserDropdown = document.querySelector(".admin_user_dropdown");
     const adminUserIcon = document.getElementById("adminUserIcon");
-    const adminDropdownContent = document.getElementById("adminDropdownContent");
     const adminSignOutBtn = document.getElementById("adminSignOutBtn");
 
-    function handleAdminLogout(event) {
-        event.preventDefault();
+    // Only initialize if required elements exist
+    if (adminUserIcon && adminUserDropdown) {
+        // Logout handler
+        function handleAdminLogout(event) {
+            event.preventDefault();
+            const adminAccessToken = sessionStorage.getItem("adminAccessToken");
+            const currentCustomer = sessionStorage.getItem("currentCustomer");
 
-        const adminAccessToken = sessionStorage.getItem("adminAccessToken");
-        const currentCustomer = sessionStorage.getItem("currentCustomer");
-
-        try {
-            // Parse customer data safely
-            const storedCustomer = currentCustomer ? JSON.parse(currentCustomer) : null;
-            
-            // Logout API Request
-            fetch("http://localhost:8083/auth/logout", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${adminAccessToken}`
-                },
-                body: JSON.stringify({ 
-                    refreshToken: storedCustomer?.refreshToken || null 
-                })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Logout failed');
-                }
-                return response.json();
-            })
-            .then(() => {
-                // Clear session storage
-                sessionStorage.removeItem("currentCustomer");
-                sessionStorage.removeItem("adminAccessToken");
-
-                // Redirect to admin login page
-                window.location.href = "/Mobile_Prepaid_Admin/Admin_Login/admin_login.html";
-            })
-            .catch(error => {
-                console.error("Logout error:", error);
+            try {
+                const storedCustomer = currentCustomer ? JSON.parse(currentCustomer) : null;
                 
-                // Fallback: Clear session storage
+                fetch("http://localhost:8083/auth/logout", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${adminAccessToken}`
+                    },
+                    body: JSON.stringify({ 
+                        refreshToken: storedCustomer?.refreshToken || null 
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Logout failed');
+                    return response.json();
+                })
+                .then(() => {
+                    sessionStorage.removeItem("currentCustomer");
+                    sessionStorage.removeItem("adminAccessToken");
+                    window.location.href = "/Mobile_Prepaid_Admin/Admin_Login/admin_login.html";
+                })
+                .catch(error => {
+                    console.error("Logout error:", error);
+                    sessionStorage.removeItem("currentCustomer");
+                    sessionStorage.removeItem("adminAccessToken");
+                    window.location.href = "/Mobile_Prepaid_Admin/Admin_Login/admin_login.html";
+                });
+            } catch (error) {
+                console.error("Logout error:", error);
                 sessionStorage.removeItem("currentCustomer");
                 sessionStorage.removeItem("adminAccessToken");
                 window.location.href = "/Mobile_Prepaid_Admin/Admin_Login/admin_login.html";
-            });
-        } catch (error) {
-            console.error("Logout error:", error);
-            // Fallback: Clear session storage
-            sessionStorage.removeItem("currentCustomer");
-            sessionStorage.removeItem("adminAccessToken");
-            window.location.href = "/Mobile_Prepaid_Admin/Admin_Login/admin_login.html";
-        }
-    }
-
-    function checkAdminAccess() {
-        const currentCustomer = sessionStorage.getItem("currentCustomer");
-        const adminAccessToken = sessionStorage.getItem("adminAccessToken");
-
-        // Redirect to Admin Login if not logged in
-        if (!currentCustomer || !adminAccessToken) {
-            window.location.href = "/Mobile_Prepaid_Admin/Admin_Login/admin_login.html";
-            return;
-        }
-    }
-
-    function updateAdminDropdown() {
-        const currentCustomer = sessionStorage.getItem("currentCustomer");
-        const adminAccessToken = sessionStorage.getItem("adminAccessToken");
-
-        // If logged in, allow dropdown functionality
-        if (currentCustomer && adminAccessToken) {
-            adminUserIcon.onclick = function (event) {
-                event.stopPropagation();
-                adminUserDropdown.classList.toggle("active"); // Toggle dropdown visibility
-            };
-
-            // Sign-out functionality
-            if (adminSignOutBtn) {
-                adminSignOutBtn.onclick = handleAdminLogout;
             }
-        } else {
-            // If not logged in, clicking the user icon redirects to Admin Login
-            adminUserIcon.onclick = function () {
+        }
+
+        // Access control
+        function checkAdminAccess() {
+            const currentCustomer = sessionStorage.getItem("currentCustomer");
+            const adminAccessToken = sessionStorage.getItem("adminAccessToken");
+
+            if (!currentCustomer || !adminAccessToken) {
                 window.location.href = "/Mobile_Prepaid_Admin/Admin_Login/admin_login.html";
-            };
-
-            // Ensure dropdown is hidden
-            adminUserDropdown.classList.remove("active");
+            }
         }
-    }
 
-    // Check if admin is logged in (Access Control)
-    checkAdminAccess();
+        // Update dropdown state
+        function updateAdminDropdown() {
+            const currentCustomer = sessionStorage.getItem("currentCustomer");
+            const adminAccessToken = sessionStorage.getItem("adminAccessToken");
 
-    // Initialize dropdown behavior
-    updateAdminDropdown();
+            if (currentCustomer && adminAccessToken) {
+                adminUserIcon.onclick = function(event) {
+                    event.stopPropagation();
+                    adminUserDropdown.classList.toggle("active");
+                };
 
-    // Close dropdown when clicking outside
-    document.addEventListener("click", function (event) {
-        if (!adminUserDropdown.contains(event.target)) {
-            adminUserDropdown.classList.remove("active");
+                if (adminSignOutBtn) {
+                    adminSignOutBtn.onclick = handleAdminLogout;
+                }
+            } else {
+                adminUserIcon.onclick = function() {
+                    window.location.href = "/Mobile_Prepaid_Admin/Admin_Login/admin_login.html";
+                };
+                adminUserDropdown.classList.remove("active");
+            }
         }
-    });
 
-    // Redirect if session storage is cleared (security measure)
-    window.addEventListener("storage", function () {
-        if (!sessionStorage.getItem("currentCustomer") || !sessionStorage.getItem("adminAccessToken")) {
-            window.location.href = "/Mobile_Prepaid_Admin/Admin_Login/admin_login.html";
-        }
-    });
+        // Initialize
+        checkAdminAccess();
+        updateAdminDropdown();
 
-    // Listen for login event and update dropdown dynamically
-    window.addEventListener("storage", function () {
-        if (sessionStorage.getItem("currentCustomer") && sessionStorage.getItem("adminAccessToken")) {
+        // Close when clicking outside
+        document.addEventListener("click", function(event) {
+            if (adminUserDropdown && !adminUserDropdown.contains(event.target) && 
+               event.target !== adminUserIcon && !adminUserIcon.contains(event.target)) {
+                adminUserDropdown.classList.remove("active");
+            }
+        });
+
+        // Session storage listeners
+        window.addEventListener("storage", function() {
+            if (!sessionStorage.getItem("currentCustomer") || !sessionStorage.getItem("adminAccessToken")) {
+                window.location.href = "/Mobile_Prepaid_Admin/Admin_Login/admin_login.html";
+            }
             updateAdminDropdown();
-        }
-    });
+        });
+    }
 });
 
+
+// Hamburger Menu JS (Standalone)
+document.addEventListener('DOMContentLoaded', function() {
+    // Elements
+    const hamburger = document.querySelector('.admin_hamburger_menu');
+    const navLinks = document.querySelector('.admin_nav_links');
+    
+    // Only initialize if required elements exist
+    if (hamburger && navLinks) {
+        // Toggle menu
+        hamburger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            
+            // Animation delay for menu items
+            document.querySelectorAll('.admin_nav_links li').forEach((item, index) => {
+                item.style.setProperty('--i', index);
+            });
+        });
+        
+        // Close when clicking links
+        const navItems = document.querySelectorAll('.admin_navigation a');
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // Close when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
+        });
+        
+        // Optional: Close on resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
+        });
+    }
+});
 
 
 document.addEventListener("DOMContentLoaded", async () => {

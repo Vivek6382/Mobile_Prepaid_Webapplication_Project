@@ -1,111 +1,131 @@
-// The-Login-Logout-Handler
-
+ 
 // Profile-DropDown-JS
-
-// The-Login-Logout-Handler
-
-// Profile-DropDown-JS
-// Login-Logout-Handler
 
 document.addEventListener("DOMContentLoaded", function () {
-    const profileMenu = document.querySelector(".profile-menu");
-    const userIcon = document.querySelector(".profile-menu i");
-    const dropdownOptions = document.querySelector(".dropdown-options");
+    // User dropdown functionality
+    const userDropdown = document.querySelector(".user-dropdown");
+    const userIcon = document.getElementById("userIcon");
+    const dropdownContent = document.querySelector(".dropdown-content");
     const signOutBtn = document.getElementById("signOutBtn");
-    const logoutBtn = document.getElementById("logout-btn");
-
-    async function handleLogout(event) {
-        event.preventDefault();
-        
-        const accessToken = sessionStorage.getItem("accessToken");
-        const refreshToken = JSON.parse(sessionStorage.getItem("currentCustomer")).refreshToken;
-
-        try {
-            // Logout API Request
-            const logoutResponse = await fetch("http://localhost:8083/auth/logout", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${accessToken}`
-                },
-                body: JSON.stringify({ refreshToken: refreshToken })
-            });
-
-            if (!logoutResponse.ok) {
-                throw new Error("Logout failed");
-            }
-
-            // Clear session storage
-            sessionStorage.removeItem("currentCustomer");
-            sessionStorage.removeItem("accessToken");
-            
-            // Redirect to login page
-            window.location.href = "/Mobile_Prepaid_Customer/Recharge_Page/recharge.html";
-        } catch (error) {
-            console.error("Logout error:", error);
-            // Fallback: Clear session storage even if logout request fails
-            sessionStorage.removeItem("currentCustomer");
-            sessionStorage.removeItem("accessToken");
-            window.location.href = "/Mobile_Prepaid_Customer/Recharge_Page/recharge.html";
-        }
-    }
+    const myAccountBtn = document.getElementById("myAccountBtn");
 
     function updateDropdown() {
         const currentCustomer = sessionStorage.getItem("currentCustomer");
         const accessToken = sessionStorage.getItem("accessToken");
 
-        if (currentCustomer && accessToken) {
-            // Show dropdown when user icon is clicked
-            userIcon.onclick = function (event) {
-                event.stopPropagation();
-                profileMenu.classList.toggle("active");
-            };
-
-            // Ensure dropdown starts hidden
-            profileMenu.classList.remove("active");
-
-            // Attach logout functionality to both buttons
-            if (signOutBtn) signOutBtn.onclick = handleLogout;
-            if (logoutBtn) logoutBtn.onclick = handleLogout;
-
-        } else {
-            // If not logged in, clicking the user icon redirects to the recharge page
-            userIcon.onclick = function () {
+        // Always make the user icon visible
+        userIcon.style.display = "block";
+        
+        // Set up click handler for user icon
+        userIcon.onclick = function (event) {
+            event.stopPropagation();
+            
+            if (currentCustomer && accessToken) {
+                // If authenticated, toggle dropdown
+                userDropdown.classList.toggle("active");
+            } else {
+                // If not authenticated, redirect to recharge page
                 window.location.href = "/Mobile_Prepaid_Customer/Recharge_Page/recharge.html";
-            };
+            }
+        };
 
-            // Ensure dropdown is hidden
-            profileMenu.classList.remove("active");
+        if (currentCustomer && accessToken) {
+            // My Account functionality
+            myAccountBtn.onclick = function(event) {
+                event.preventDefault();
+                window.location.href = "/Mobile_Prepaid_Customer/My_Account/My_Account.html";
+            };
+            
+            // Sign-out functionality with backend logout
+            signOutBtn.onclick = async function (event) {
+                event.preventDefault();
+                
+                try {
+                    const storedCustomer = JSON.parse(currentCustomer);
+                    const logoutResponse = await fetch("http://localhost:8083/auth/logout", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${accessToken}`
+                        },
+                        body: JSON.stringify({ 
+                            refreshToken: storedCustomer.refreshToken 
+                        })
+                    });
+
+                    // Clear session storage
+                    sessionStorage.removeItem("accessToken");
+                    sessionStorage.removeItem("currentCustomer");
+                    localStorage.removeItem("accessToken");
+
+                    // Redirect
+                    window.location.href = "/Mobile_Prepaid_Customer/Recharge_Page/recharge.html";
+                } catch (error) {
+                    console.error("Logout error:", error);
+                    // Fallback clear
+                    sessionStorage.removeItem("accessToken");
+                    sessionStorage.removeItem("currentCustomer");
+                    localStorage.removeItem("accessToken");
+                    window.location.href = "/Mobile_Prepaid_Customer/Recharge_Page/recharge.html";
+                }
+            };
         }
     }
+
     // Initialize dropdown behavior
     updateDropdown();
 
     // Close dropdown when clicking outside
     document.addEventListener("click", function (event) {
-        if (!profileMenu.contains(event.target)) {
-            profileMenu.classList.remove("active");
+        if (userDropdown && !userDropdown.contains(event.target)) {
+            userDropdown.classList.remove("active");
         }
     });
 
-    // Handle case where user manually navigates away after signing out
-    window.addEventListener("storage", function () {
-        if (!sessionStorage.getItem("currentCustomer") || !sessionStorage.getItem("accessToken")) {
-            window.location.href = "/Mobile_Prepaid_Customer/Recharge_Page/recharge.html";
-        }
-    });
-
-    // Listen for login event from the recharge form
-    window.addEventListener("storage", function () {
-        if (sessionStorage.getItem("currentCustomer") && sessionStorage.getItem("accessToken")) {
-            updateDropdown(); // Update dropdown dynamically after login
+    // Handle storage changes across tabs/windows
+    window.addEventListener("storage", function (event) {
+        if (event.key === "currentCustomer" || event.key === "accessToken") {
+            if (!sessionStorage.getItem("currentCustomer") || !sessionStorage.getItem("accessToken")) {
+                window.location.href = "/Mobile_Prepaid_Customer/Recharge_Page/recharge.html";
+            }
         }
     });
 });
 
 
+function setupHamburgerMenu() {
+    // Hamburger menu functionality
+    const hamburger = document.querySelector('.hamburger-menu');
+    const navLinks = document.querySelector('.navigation_main .nav-links');
+    
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        
+        // Close menu when clicking on a link
+        const navItems = document.querySelectorAll('.navigation_main a');
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
+        });
+    }
+}
 
-
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', setupHamburgerMenu);
 
 
 
@@ -2113,3 +2133,63 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .catch(error => console.error("Error fetching transactions:", error));
 });
+
+
+
+
+// Mobile Menu Toggle for My Account Page
+document.addEventListener("DOMContentLoaded", function() {
+  // Create mobile menu toggle button if on My Account page
+  if (document.querySelector('.sidebar')) {
+    const menuToggle = document.createElement('div');
+    menuToggle.className = 'mobile-menu-toggle';
+    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+    document.body.appendChild(menuToggle);
+    
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'sidebar-overlay';
+    document.body.appendChild(overlay);
+
+    // Toggle sidebar
+    menuToggle.addEventListener('click', function() {
+      document.querySelector('.sidebar').classList.toggle('active');
+      overlay.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    });
+
+    // Close sidebar when clicking overlay
+    overlay.addEventListener('click', function() {
+      document.querySelector('.sidebar').classList.remove('active');
+      overlay.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    });
+
+    // Close sidebar when clicking a link
+    document.querySelectorAll('.list-unstyled a').forEach(link => {
+      link.addEventListener('click', function() {
+        document.querySelector('.sidebar').classList.remove('active');
+        overlay.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      });
+    });
+
+    // Adaptive table handling for mobile
+    function adaptTables() {
+      if (window.innerWidth < 768) {
+        document.querySelectorAll('.recharge_history_row').forEach(row => {
+          row.style.flexDirection = 'column';
+          row.style.gap = '10px';
+        });
+      } else {
+        document.querySelectorAll('.recharge_history_row').forEach(row => {
+          row.style.flexDirection = 'row';
+        });
+      }
+    }
+
+    window.addEventListener('resize', adaptTables);
+    adaptTables(); // Run initially
+  }
+});
+

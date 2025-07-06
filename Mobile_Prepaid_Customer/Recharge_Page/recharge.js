@@ -1,6 +1,8 @@
-   // Profile-DropDown-JS
+ 
+// Profile-DropDown-JS
 
-   document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
+    // User dropdown functionality
     const userDropdown = document.querySelector(".user-dropdown");
     const userIcon = document.getElementById("userIcon");
     const dropdownContent = document.querySelector(".dropdown-content");
@@ -11,16 +13,29 @@
         const currentCustomer = sessionStorage.getItem("currentCustomer");
         const accessToken = sessionStorage.getItem("accessToken");
 
-        if (currentCustomer && accessToken) {
-            // User is logged in
-            userIcon.style.display = "block"; // Ensure user icon is visible
+        // Always make the user icon visible
+        userIcon.style.display = "block";
+        
+        // Set up click handler for user icon
+        userIcon.onclick = function (event) {
+            event.stopPropagation();
             
-            // Show dropdown when user icon is clicked
-            userIcon.onclick = function (event) {
-                event.stopPropagation();
+            if (currentCustomer && accessToken) {
+                // If authenticated, toggle dropdown
                 userDropdown.classList.toggle("active");
-            };
+            } else {
+                // If not authenticated, redirect to recharge page
+                window.location.href = "/Mobile_Prepaid_Customer/Recharge_Page/recharge.html";
+            }
+        };
 
+        if (currentCustomer && accessToken) {
+            // My Account functionality
+            myAccountBtn.onclick = function(event) {
+                event.preventDefault();
+                window.location.href = "/Mobile_Prepaid_Customer/My_Account/My_Account.html";
+            };
+            
             // Sign-out functionality with backend logout
             signOutBtn.onclick = async function (event) {
                 event.preventDefault();
@@ -38,31 +53,21 @@
                         })
                     });
 
-                    // Clear session storage regardless of logout response
+                    // Clear session storage
                     sessionStorage.removeItem("accessToken");
                     sessionStorage.removeItem("currentCustomer");
                     localStorage.removeItem("accessToken");
 
-                    // Redirect to login page
+                    // Redirect
                     window.location.href = "/Mobile_Prepaid_Customer/Recharge_Page/recharge.html";
                 } catch (error) {
                     console.error("Logout error:", error);
-                    // Fallback: Clear session storage
+                    // Fallback clear
                     sessionStorage.removeItem("accessToken");
                     sessionStorage.removeItem("currentCustomer");
                     localStorage.removeItem("accessToken");
                     window.location.href = "/Mobile_Prepaid_Customer/Recharge_Page/recharge.html";
                 }
-            };
-
-            // My Account button functionality
-            myAccountBtn.onclick = function() {
-                window.location.href = "/Mobile_Prepaid_Customer/My_Account/My_Account.html";
-            };
-        } else {
-            // Not logged in - redirect to recharge page
-            userIcon.onclick = function() {
-                window.location.href = "/Mobile_Prepaid_Customer/Recharge_Page/recharge.html";
             };
         }
     }
@@ -83,65 +88,44 @@
             if (!sessionStorage.getItem("currentCustomer") || !sessionStorage.getItem("accessToken")) {
                 window.location.href = "/Mobile_Prepaid_Customer/Recharge_Page/recharge.html";
             }
-            
-            // Reinitialize dropdown
-            updateDropdown();
         }
     });
 });
 
 
-
-
-
-document.addEventListener('DOMContentLoaded', function() {
-  // Hamburger menu functionality
-  const hamburger = document.querySelector('.hamburger-menu');
-  const navLinks = document.querySelector('.navigation_main .nav-links');
-  
-  if (hamburger && navLinks) {
-    hamburger.addEventListener('click', function(e) {
-      e.stopPropagation();
-      this.classList.toggle('active');
-      navLinks.classList.toggle('active');
-    });
+function setupHamburgerMenu() {
+    // Hamburger menu functionality
+    const hamburger = document.querySelector('.hamburger-menu');
+    const navLinks = document.querySelector('.navigation_main .nav-links');
     
-    // Close menu when clicking on a link
-    const navItems = document.querySelectorAll('.navigation_main a');
-    navItems.forEach(item => {
-      item.addEventListener('click', function() {
-        hamburger.classList.remove('active');
-        navLinks.classList.remove('active');
-      });
-    });
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', function(e) {
-      if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
-        hamburger.classList.remove('active');
-        navLinks.classList.remove('active');
-      }
-    });
-  }
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        
+        // Close menu when clicking on a link
+        const navItems = document.querySelectorAll('.navigation_main a');
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
+        });
+    }
+}
 
-  // User dropdown functionality
-  const userDropdown = document.querySelector('.user-dropdown');
-  const userIcon = document.getElementById('userIcon');
-  
-  if (userDropdown && userIcon) {
-    userIcon.addEventListener('click', function(e) {
-      e.stopPropagation();
-      userDropdown.classList.toggle('active');
-    });
-    
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(e) {
-      if (!userDropdown.contains(e.target)) {
-        userDropdown.classList.remove('active');
-      }
-    });
-  }
-});
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', setupHamburgerMenu);
 
 
 

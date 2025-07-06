@@ -47,6 +47,20 @@
     --social-icon-hover-bg: #ff5722; /* Orangered hover effect for social icons */
     --faq-heading-color: #ff5722; /* Orangered heading color for FAQ */
     --link-hover-color: #ff5722; /* Orangered hover effect for links */
+
+       /* Navigation-specific colors */
+    --admin-nav-primary: var(--background-medium); /* #1a1a1a */
+    --admin-nav-text: var(--text-color-inverse); /* #ffffff */
+    --admin-nav-highlight: var(--highlight-color); /* #ff4500 */
+    --admin-nav-border: var(--border-color-inverse); /* #333 */
+    --admin-nav-hover-bg: rgba(255, 69, 0, 0.1);
+    --admin-nav-dropdown-bg: var(--background-light); /* #222222 */
+    
+    --background-medium: #1a1a1a;
+    --text-color-inverse: #ffffff;
+    --border-color-inverse: #333;
+    --background-light: #222222;
+
   }
   
   
@@ -59,31 +73,32 @@
   
   
 /* Header Styling */
+/* Admin Header Styling */
 .admin_header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 5rem;
-    background-color: #1a1a1a;
-    border-bottom: 2px solid #333;
+    background-color: var(--admin-nav-primary);
+    border-bottom: 2px solid var(--admin-nav-border);
+    position: relative;
+    z-index: 1002;
 }
 
-/* First Header Part (Logo) */
 .admin_header_logo h4 a {
     font-size: 2rem;
     font-weight: bold;
-    color: #ffffff;
+    color: var(--admin-nav-text);
     font-style: italic;
     text-decoration: none;
 }
 
 .admin_header_logo h4 span {
-    color: #ff4500;
+    color: var(--admin-nav-highlight);
     font-weight: bold;
     font-family: 'Poppins', sans-serif;
 }
 
-/* Second Header Part */
 .admin_header_controls {
     display: flex;
     align-items: center;
@@ -91,74 +106,7 @@
     gap: 1.5rem;
 }
 
-/* Admin Button */
-.admin_customer_btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #333;
-    padding: 8px 15px;
-    border-radius: 20px;
-    transition: 0.3s ease-in-out;
-    cursor: pointer;
-    gap: 8px;
-    border: 2px solid transparent;
-}
-
-.admin_customer_btn i {
-    font-size: 1.2rem;
-    color: #ff4500;
-}
-
-.admin_customer_btn p {
-    font-size: 1rem;
-    font-weight: bold;
-    color: #ffffff;
-    margin: 0;
-    line-height: 1;
-}
-
-.admin_customer_btn p a {
-    text-decoration: none;
-    color: #ffffff;
-}
-
-.admin_customer_btn:hover {
-    background: #ff4500;
-    border-color: #ffffff;
-    transform: scale(1.05);
-}
-
-/* Search Box */
-.admin_search {
-    display: flex;
-    align-items: center;
-    background: #333;
-    padding: 5px 10px;
-    border-radius: 20px;
-}
-
-.admin_search i {
-    color: #ff4500;
-    font-size: 1.2rem;
-    margin-right: 5px;
-}
-
-.admin_search input {
-    background: transparent;
-    border: none;
-    outline: none;
-    color: #ffffff;
-    font-size: 1rem;
-}
-
-.admin_search input::placeholder {
-    color: #bbb;
-    font-style: italic;
-}
-
-/* User Dropdown */
-/* User Dropdown */
+/* User Drop-Down */
 .admin_user_dropdown {
     position: relative;
     cursor: pointer;
@@ -166,89 +114,134 @@
 
 .admin_user_dropdown i {
     font-size: 1.5rem;
-    color: #ff4500;
+    color: var(--admin-nav-highlight);
     cursor: pointer;
 }
 
-/* Dropdown Content */
 .admin_dropdown_content {
     display: none;
     position: absolute;
     right: 0;
     top: 40px;
-    background: #222;
+    background: var(--admin-nav-dropdown-bg);
     min-width: 150px;
     border-radius: 5px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     overflow: hidden;
+    z-index: 1003;
+}
+
+.admin_user_dropdown.active .admin_dropdown_content {
+    display: block;
 }
 
 .admin_dropdown_content a {
     display: block;
     padding: 10px;
     text-decoration: none;
-    color: #ffffff;
+    color: var(--admin-nav-text);
     font-size: 1rem;
     transition: 0.3s;
 }
 
 .admin_dropdown_content a:hover {
-    background: #ff4500;
+    background: var(--admin-nav-highlight);
 }
 
-/* Show dropdown on click */
-.admin_user_dropdown.active .admin_dropdown_content {
+/* Admin Navigation Styles */
+.admin_navigation {
+    background-color: var(--admin-nav-primary);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 0 5rem;
+}
+
+.admin_navigation nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 0;
+    position: relative;
+}
+
+.admin_nav_links {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 2rem;
+    transition: all 0.3s ease;
+}
+
+.admin_navigation li {
+    position: relative;
+}
+
+.admin_navigation a {
+    color: var(--admin-nav-text);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
     display: block;
 }
 
-/* Navigation Styling */
-.admin_navigation {
-    display: flex;
-    justify-content: center;
-    padding: 1rem 5rem;
-    background-color: #1a1a1a;
-    border-bottom: 2px solid #333;
-}
-
-.admin_navigation nav ul {
-    display: flex;
-    gap: 2.5rem;
-    list-style: none;
-}
-
-.admin_navigation nav ul li {
-    font-size: 1.3rem;
-    font-weight: bold;
-    color: #ffffff;
-    cursor: pointer;
-    position: relative;
-    transition: 0.3s ease-in-out;
-}
-
-.admin_navigation nav ul li a {
-    text-decoration: none;
-    color: #ffffff;
+.admin_navigation a:hover,
+.admin_navigation a:focus {
+    color: var(--admin-nav-highlight);
+    background-color: var(--admin-nav-hover-bg);
 }
 
 /* Underline Effect */
-.admin_navigation nav ul li a::after {
+.admin_navigation li a::after {
     content: '';
     width: 0;
     height: 3px;
-    background: #ff4500;
+    background: var(--admin-nav-highlight);
     position: absolute;
     left: 0;
     bottom: -5px;
     transition: width 0.3s ease-in-out;
 }
 
-.admin_navigation nav ul li a:hover::after {
+.admin_navigation li a:hover::after {
     width: 100%;
 }
 
-.admin_navigation nav ul li a:hover {
-    color: #ff4500;
-    transform: translateY(-3px);
+/* Hamburger Menu */
+.admin_hamburger_menu {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    cursor: pointer;
+    z-index: 1004;
+    position: relative;
+}
+
+.admin_hamburger_menu span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: var(--admin-nav-highlight);
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+.admin_hamburger_menu.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.admin_hamburger_menu.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.admin_hamburger_menu.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
 }
 
   
@@ -2380,4 +2373,151 @@ h3 {
   
 
 
+
+
+
+/* Responsive Design */
+/* Mobile Devices (up to 767px) */
+@media (max-width: 767px) {
+  /* Header Stacking */
+  .admin_header {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .admin_header_logo h4 a {
+    font-size: 1.8rem;
+  }
+  
+  .admin_header_controls {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  
+  /* Centered Mobile Navigation */
+  .admin_navigation {
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .admin_navigation nav {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .admin_hamburger_menu {
+    display: flex;
+    margin: 0 auto;
+  }
+  
+  .admin_nav_links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--admin-nav-primary);
+    z-index: 1000;
+    border-bottom: 2px solid var(--admin-nav-highlight);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.25, 0.1, 0.25, 1), 
+                padding 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+  }
+  
+  .admin_nav_links.active {
+    max-height: 500px;
+    padding: 1rem 0;
+  }
+  
+  .admin_nav_links li {
+    width: 100%;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease;
+    border-bottom: 1px solid rgba(255, 69, 0, 0.1);
+  }
+  
+  .admin_nav_links li:last-child {
+    border-bottom: none;
+  }
+  
+  .admin_nav_links li:hover {
+    background-color: var(--admin-nav-hover-bg);
+  }
+  
+  .admin_nav_links a {
+    padding: 1rem;
+    font-size: 1.1rem;
+    color: var(--admin-nav-text);
+    position: relative;
+    display: block;
+  }
+  
+  .admin_nav_links a:hover {
+    color: var(--admin-nav-highlight);
+    background-color: transparent;
+  }
+  
+  /* Mobile underline effect */
+  .admin_nav_links li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 8px;
+    left: 50%;
+    background-color: var(--admin-nav-highlight);
+    transition: width 0.3s ease, left 0.3s ease;
+  }
+  
+  .admin_nav_links li a:hover::after {
+    width: 80%;
+    left: 10%;
+  }
+
+  /* User Dropdown */
+  .admin_dropdown_content {
+    min-width: 180px;
+    right: -20px;
+    z-index: 1001;
+  }
+}
+
+/* Small Mobile Devices (up to 480px) */
+@media (max-width: 480px) {
+  /* Header */
+  .admin_user_dropdown i {
+    font-size: 1.2rem;
+  }
+  
+  /* Navigation */
+  .admin_navigation {
+    padding: 0.5rem;
+  }
+  
+  .admin_nav_links a {
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+
+  /* Dropdown adjustments */
+  .admin_dropdown_content {
+    min-width: 160px;
+    right: -10px;
+  }
+  
+  .admin_dropdown_content a {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+}
 
